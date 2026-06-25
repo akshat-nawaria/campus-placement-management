@@ -26,7 +26,7 @@ const googleLogin = async (req,res)=>{
 
         if(!user){
             //If they don't exist, register them automatically
-            user = await User.create({
+            user = await userModel.create({
                 name,
                 email,
                 googleId: sub,
@@ -55,7 +55,7 @@ const googleLogin = async (req,res)=>{
         });
         
     }
-    catch(err){
+    catch(error){
         console.error("Google Login Error:", error);
         res.status(500).json({ message: "Authentication failed", error: error.message });
     }
