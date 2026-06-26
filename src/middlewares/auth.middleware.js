@@ -1,4 +1,4 @@
-const jwt = require("jwt");
+const jwt = require("jsonwebtoken");
 
 // function to check if the user is logged in
 const requireAuth = (req, res, next) => {

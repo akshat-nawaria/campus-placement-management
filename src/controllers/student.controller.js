@@ -1,7 +1,6 @@
 const studentModel = require("../models/student.model")
 
 //create or update student profile
-
 const createOrUpdateProfile = async (req,res)=>{
 
     try{
@@ -46,9 +45,9 @@ const createOrUpdateProfile = async (req,res)=>{
 }
 
 //function to get the profile
-const getProfile = (req,res)=>{
+const getProfile = async (req,res)=>{
     try{
-        const userId = req.userId;
+        const userId = req.user.id;
         // Populate grabs the linked User data (name, email)
         const student = await studentModel.findOne({userId}).populate("userId", "name email")
 
