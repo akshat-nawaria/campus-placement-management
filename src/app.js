@@ -5,6 +5,7 @@ const authRoutes = require("../src/routes/auth.routes")
 const studentRoutes = require("./routes/student.routes")
 const companyRoutes = require("./routes/company.routes")
 const jobRoutes = require("./routes/job.routes");
+const applicationRoutes = require("./routes/application.routes");
 const app = express()
 
 app.use(express.json()); // Parse JSON bodies
@@ -15,5 +16,6 @@ app.use("/api/auth", authRoutes)
 app.use("/api/students", studentRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/applications", applicationRoutes);
 
 module.exports = app;
