@@ -6,10 +6,10 @@ const {applyForJob, getApplicationsForJob, getMyApplications, updateApplicationS
 
 router.use(requireAuth);
 
-router.post("/:jobId/apply", requireRole([ROLES.STUDENT]), applyForJob);
+router.post("/:jobId/apply", requireRole([ROLES.STUDENT, ROLES.ADMIN]), applyForJob);
 
 // Student views their own applications
-router.get("/student", requireRole([ROLES.STUDENT]), getMyApplications);
+router.get("/student", requireRole([ROLES.STUDENT, ROLES.ADMIN]), getMyApplications);
 
 router.get("/job/:jobId", requireRole([ROLES.ADMIN, ROLES.TPO]), getApplicationsForJob);
 

@@ -20,7 +20,7 @@ const studentLinks = [
 ];
 
 export default function Sidebar({ role, onClose }) {
-  const { logout } = useAuth();
+  const { logout, role: userRole } = useAuth();
   const navigate = useNavigate();
   const links = role === 'tpo' ? tpoLinks : studentLinks;
 
@@ -80,8 +80,21 @@ export default function Sidebar({ role, onClose }) {
         )}
       </nav>
 
-      {/* Logout */}
-      <div className="px-3 py-4 border-t border-white/10">
+      {/* Switch Portal & Logout */}
+      <div className="px-3 py-4 border-t border-white/10 space-y-2">
+        {userRole === 'Admin' && (
+          <button
+            onClick={() => {
+              navigate(role === 'tpo' ? '/dashboard/student' : '/dashboard/tpo');
+              if (onClose) onClose();
+            }}
+            className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-white bg-primary/20 hover:bg-primary/40 transition-all w-full"
+          >
+            <span className="material-symbols-outlined text-[20px]">swap_horiz</span>
+            Switch to {role === 'tpo' ? 'Student' : 'Admin'} Portal
+          </button>
+        )}
+
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-[#94A3B8] hover:text-white hover:bg-white/5 transition-all w-full"

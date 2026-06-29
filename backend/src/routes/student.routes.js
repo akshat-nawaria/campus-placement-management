@@ -12,9 +12,9 @@ router.use(requireAuth);
 // GET all students (TPO only)
 router.get("/", requireRole([ROLES.TPO, ROLES.ADMIN]), getAllStudents);
 
-router.post("/profile", requireRole([ROLES.STUDENT]), upload.single("resume"), createOrUpdateProfile);
+router.post("/profile", requireRole([ROLES.STUDENT, ROLES.ADMIN]), upload.single("resume"), createOrUpdateProfile);
 
-router.get("/profile", requireRole([ROLES.STUDENT]), getProfile);
+router.get("/profile", requireRole([ROLES.STUDENT, ROLES.ADMIN]), getProfile);
 
 router.put("/:studentId/verify", requireRole([ROLES.TPO, ROLES.ADMIN]), verifyProfile)
 

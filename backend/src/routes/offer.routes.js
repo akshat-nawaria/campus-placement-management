@@ -7,13 +7,13 @@ const ROLES = require("../utils/constants")
 router.use(requireAuth);
 
 // Student views their own offer
-router.get("/my", requireRole([ROLES.STUDENT]), getMyOffer);
+router.get("/my", requireRole([ROLES.STUDENT, ROLES.ADMIN]), getMyOffer);
 
 // TPO views all offers
 router.get("/", requireRole([ROLES.ADMIN, ROLES.TPO]), getAllOffers);
 
 router.post("/issue", requireRole([ROLES.ADMIN, ROLES.TPO]), issueOffer);
 
-router.put("/:offerId/accept", requireRole([ROLES.STUDENT]), acceptOffer);
+router.put("/:offerId/accept", requireRole([ROLES.STUDENT, ROLES.ADMIN]), acceptOffer);
 
 module.exports = router;
