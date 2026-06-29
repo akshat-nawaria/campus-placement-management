@@ -33,7 +33,12 @@ const studentSchema = new mongoose.Schema({
     isVerifiedByTPO:{
         type : Boolean,
         default : false
+    },
+    hasAcceptedOffer:{
+        type : Boolean,
+        default : false
     }
+    
 }, {timestamps: true})
 
 const studentModel = mongoose.model("student", studentSchema);

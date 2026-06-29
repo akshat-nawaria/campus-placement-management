@@ -67,6 +67,16 @@ const getProfile = async (req,res)=>{
 }
 
 
+// GET all students (for TPO dashboard)
+const getAllStudents = async (req, res) => {
+    try {
+        const students = await studentModel.find().populate("userId", "name email");
+        res.status(200).json({ students });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch students", error: error.message });
+    }
+};
+
 //TPO verification end point
 const verifyProfile = async (req, res) => {
     try {
@@ -87,5 +97,6 @@ const verifyProfile = async (req, res) => {
 module.exports = {
     verifyProfile,
     getProfile,
-    createOrUpdateProfile
+    createOrUpdateProfile,
+    getAllStudents
 };

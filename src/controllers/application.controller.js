@@ -24,6 +24,12 @@ const applyForJob = async (req,res)=>{
             })
         }
 
+        if(studentProfile.hasAcceptedOffer){
+            return res.status(403).json({
+                message : "Single-Offer Policy: You have already accepted an offer and cannot apply for new jobs."
+            })
+        }
+
         //student eligibility check
         if(!isEligible(studentProfile, job)){
             return res.status(403).json({
@@ -74,6 +80,23 @@ const getApplicationsForJob = async (req,res)=>{
         })
     }
 }
+
+// Student views their own applications
+const getMyApplications = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const studentProfile = await Student.findOne({ userId });
+        if (!studentProfile) {
+            return res.status(404).json({ message: "Profile not found" });
+        }
+        const applications = await Application.find({ studentId: studentProfile._id })
+            .populate({ path: "jobId", populate: { path: "companyId", select: "name" } })
+            .sort({ createdAt: -1 });
+        return res.status(200).json({ applications });
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to fetch applications", error: error.message });
+    }
+};
 
 //update the status of a specific application
 const updateApplicationStatus = async (req,res)=>{
@@ -161,6 +184,7 @@ const bulkUpdateStatus = async (req,res)=>{
 module.exports = {
     applyForJob,
     getApplicationsForJob,
+    getMyApplications,
     updateApplicationStatus,
     bulkUpdateStatus
 }
