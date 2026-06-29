@@ -1,3 +1,3 @@
-const ROLES = { ADMIN: 'Admin', TPO: 'TPO', SPC: 'SPC', RECRUITER: 'Recruiter', STUDENT: 'Student' }
+const ROLES = { ADMIN: 'Admin', TPO: 'TPO', STUDENT: 'Student' }
 
 module.exports = ROLES

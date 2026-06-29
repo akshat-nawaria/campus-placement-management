@@ -11,7 +11,7 @@ export const BRANCHES = ['CSE', 'IT', 'ECE', 'ME', 'EEE', 'Civil', 'Chemical', '
 
 export const JOB_TYPES = ['Full-Time', 'Internship'];
 
-export const ROLES = ['Admin', 'TPO', 'SPC', 'Recruiter', 'Student'];
+export const ROLES = ['Admin', 'TPO', 'Student'];
 
 export const STATUS_COLORS = {
   Applied: { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-300' },

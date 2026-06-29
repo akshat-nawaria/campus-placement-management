@@ -41,7 +41,7 @@ function ProtectedRoute({ children, allowedRoles }) {
 
 function RoleRedirect() {
   const { role } = useAuth();
-  if (role === 'Admin' || role === 'TPO' || role === 'SPC') return <Navigate to="/dashboard/tpo" replace />;
+  if (role === 'Admin' || role === 'TPO') return <Navigate to="/dashboard/tpo" replace />;
   if (role === 'Student') return <Navigate to="/dashboard/student" replace />;
   return <Navigate to="/login" replace />;
 }
@@ -69,7 +69,7 @@ export default function App() {
               <Route
                 path="/dashboard/tpo"
                 element={
-                  <ProtectedRoute allowedRoles={['Admin', 'TPO', 'SPC']}>
+                  <ProtectedRoute allowedRoles={['Admin', 'TPO']}>
                     <DashboardLayout role="tpo" />
                   </ProtectedRoute>
                 }
