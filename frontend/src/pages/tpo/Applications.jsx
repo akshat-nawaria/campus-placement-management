@@ -72,7 +72,7 @@ export default function Applications() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC]">
-                      {['Student', 'Roll No', 'Branch', 'CGPA', 'Status', 'Applied On', 'Action'].map((h) => (
+                      {['Student', 'Roll No', 'Branch', 'CGPA', 'Status', 'Applied On', 'Resume', 'Action'].map((h) => (
                         <th key={h} className="text-left text-label-md font-medium text-on-surface-variant uppercase tracking-wider px-4 py-3">{h}</th>
                       ))}
                     </tr>
@@ -86,6 +86,21 @@ export default function Applications() {
                         <td className="px-4 py-3 text-body-sm text-on-surface-variant">{app.studentId?.cgpa || '—'}</td>
                         <td className="px-4 py-3"><StatusBadge status={app.status} /></td>
                         <td className="px-4 py-3 text-body-sm text-on-surface-variant">{formatDate(app.createdAt)}</td>
+                        <td className="px-4 py-3">
+                          {app.studentId?.resumeUrl ? (
+                            <a 
+                              href={`${import.meta.env.VITE_API_BASE_URL}${app.studentId.resumeUrl.startsWith('/') ? '' : '/'}${app.studentId.resumeUrl}`} 
+                              target="_blank" 
+                              rel="noreferrer"
+                              className="text-primary hover:underline font-medium text-sm flex items-center gap-1"
+                            >
+                              <span className="material-symbols-outlined text-[16px]">description</span>
+                              View
+                            </a>
+                          ) : (
+                            <span className="text-gray-400 text-sm">No Resume</span>
+                          )}
+                        </td>
                         <td className="px-4 py-3">
                           <select value={app.status}
                             onChange={(e) => updateMutation.mutate({ applicationId: app._id, status: e.target.value })}

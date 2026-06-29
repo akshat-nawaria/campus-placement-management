@@ -132,7 +132,7 @@ export default function Profile() {
                 </div>
               ))}
               {student.resumeUrl && (
-                <a href={`${import.meta.env.VITE_API_BASE_URL}/${student.resumeUrl}`} target="_blank" rel="noreferrer"
+                <a href={`${import.meta.env.VITE_API_BASE_URL}${student.resumeUrl.startsWith('/') ? '' : '/'}${student.resumeUrl}`} target="_blank" rel="noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-primary-fixed text-on-primary-fixed-variant rounded-lg text-sm font-medium hover:opacity-90 mt-4">
                   <span className="material-symbols-outlined text-sm">description</span> View Resume
                 </a>
