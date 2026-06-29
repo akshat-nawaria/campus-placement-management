@@ -89,7 +89,7 @@ export default function Applications() {
                         <td className="px-4 py-3">
                           {app.studentId?.resumeUrl ? (
                             <a 
-                              href={`${import.meta.env.VITE_API_BASE_URL}${app.studentId.resumeUrl.startsWith('/') ? '' : '/'}${app.studentId.resumeUrl}`} 
+                              href={app.studentId.resumeUrl.startsWith('http') ? app.studentId.resumeUrl : `${import.meta.env.VITE_API_BASE_URL}${app.studentId.resumeUrl.startsWith('/') ? '' : '/'}${app.studentId.resumeUrl}`} 
                               target="_blank" 
                               rel="noreferrer"
                               className="text-primary hover:underline font-medium text-sm flex items-center gap-1"

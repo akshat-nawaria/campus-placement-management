@@ -8,7 +8,7 @@ const createOrUpdateProfile = async (req,res)=>{
         const userId = req.user.id;
         const {rollNo, branch, passingYear, cgpa, backlogCount} = req.body;
 
-        let resumeUrl = req.file ? '/uploads/' + req.file.filename : undefined;
+        let resumeUrl = req.file ? req.file.path : undefined;
 
         let student = await studentModel.findOne({ userId });
 

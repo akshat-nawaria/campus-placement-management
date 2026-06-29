@@ -124,7 +124,7 @@ export default function Students() {
               ))}
             </div>
             {selected.resumeUrl && (
-              <a href={`${import.meta.env.VITE_API_BASE_URL}${selected.resumeUrl.startsWith('/') ? '' : '/'}${selected.resumeUrl}`} target="_blank" rel="noreferrer"
+              <a href={selected.resumeUrl.startsWith('http') ? selected.resumeUrl : `${import.meta.env.VITE_API_BASE_URL}${selected.resumeUrl.startsWith('/') ? '' : '/'}${selected.resumeUrl}`} target="_blank" rel="noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary-fixed text-on-primary-fixed-variant rounded-lg text-sm font-medium hover:opacity-90">
                 <span className="material-symbols-outlined text-sm">description</span> View Resume
               </a>
