@@ -16,7 +16,7 @@ export default function Login() {
     try {
       const res = await googleLogin(response.credential);
       login(res.data.token);
-      toast.success(Welcome back, !);
+      toast.success(`Welcome back, ${res.data.user.name}!`);
       navigate('/dashboard');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
@@ -34,12 +34,12 @@ export default function Login() {
       if (isRegistering) {
         const res = await registerUser(formData);
         login(res.data.token);
-        toast.success(Account created! Welcome, !);
+        toast.success(`Account created! Welcome, ${res.data.user.name}!`);
         navigate('/dashboard');
       } else {
         const res = await emailLogin({ email: formData.email, password: formData.password });
         login(res.data.token);
-        toast.success(Welcome back, !);
+        toast.success(`Welcome back, ${res.data.user.name}!`);
         navigate('/dashboard');
       }
     } catch (err) {
