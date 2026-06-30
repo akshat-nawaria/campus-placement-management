@@ -1,38 +1,72 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
-import { googleLogin } from '../api/auth';
+import { googleLogin, emailLogin, registerUser } from '../api/auth';
 import toast from 'react-hot-toast';
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleGoogleSuccess = async (response) => {
     try {
       const res = await googleLogin(response.credential);
       login(res.data.token);
-      toast.success(`Welcome back, ${res.data.user.name}!`);
+      toast.success(Welcome back, !);
       navigate('/dashboard');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
     }
   };
 
+  const handleEmailAuth = async (e) => {
+    e.preventDefault();
+    if (!formData.email || !formData.password || (isRegistering && !formData.name)) {
+      return toast.error("Please fill in all fields");
+    }
+    
+    setIsLoading(true);
+    try {
+      if (isRegistering) {
+        const res = await registerUser(formData);
+        login(res.data.token);
+        toast.success(Account created! Welcome, !);
+        navigate('/dashboard');
+      } else {
+        const res = await emailLogin({ email: formData.email, password: formData.password });
+        login(res.data.token);
+        toast.success(Welcome back, !);
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || (isRegistering ? 'Registration failed' : 'Login failed'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <main className="flex min-h-screen bg-surface text-on-surface font-sans">
       {/* Left: Login Form Section */}
-      <section className="w-full lg:w-1/2 bg-surface-container-lowest flex flex-col items-center justify-center px-8 md:px-16 lg:px-24 py-12 relative">
+      <section className="w-full lg:w-1/2 bg-surface-container-lowest flex flex-col items-center justify-center px-8 md:px-16 lg:px-24 py-12 relative overflow-y-auto">
         {/* Logo */}
         <div className="absolute top-12 left-8 md:left-12 lg:left-24">
           <span className="text-display-lg font-bold text-primary">PlaceIT</span>
         </div>
 
-        <div className="w-full max-w-md flex flex-col gap-8">
+        <div className="w-full max-w-md flex flex-col gap-8 mt-16 md:mt-0">
           {/* Header */}
           <div className="flex flex-col gap-2">
-            <h2 className="text-headline-lg font-semibold text-on-surface">Welcome back</h2>
-            <p className="text-body-md text-on-surface-variant">Sign in to your PlaceIT account</p>
+            <h2 className="text-headline-lg font-semibold text-on-surface">
+              {isRegistering ? 'Create an account' : 'Welcome back'}
+            </h2>
+            <p className="text-body-md text-on-surface-variant">
+              {isRegistering ? 'Sign up to build your placement profile' : 'Sign in to your PlaceIT account'}
+            </p>
           </div>
 
           {/* Google Sign-In */}
@@ -42,7 +76,7 @@ export default function Login() {
               onError={() => toast.error('Google login failed')}
               width="100%"
               shape="rectangular"
-              text="continue_with"
+              text={isRegistering ? "signup_with" : "continue_with"}
               size="large"
             />
           </div>
@@ -54,45 +88,74 @@ export default function Login() {
             <div className="h-px bg-outline-variant flex-1" />
           </div>
 
-          {/* Email/Password Fields (Disabled) */}
-          <div className="flex flex-col gap-6">
-            <div className="relative tooltip-container">
+          {/* Email/Password Fields */}
+          <form onSubmit={handleEmailAuth} className="flex flex-col gap-6">
+            {isRegistering && (
+              <div>
+                <label className="block text-label-md text-on-surface-variant mb-2">Full Name</label>
+                <div className="relative">
+                  <input
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                    placeholder="John Doe"
+                    type="text"
+                  />
+                  <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">person</span>
+                </div>
+              </div>
+            )}
+            
+            <div>
               <label className="block text-label-md text-on-surface-variant mb-2">Email Address</label>
               <div className="relative">
                 <input
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 text-on-surface-variant cursor-not-allowed opacity-60"
-                  disabled
-                  placeholder="Coming soon"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                  placeholder="name@university.edu"
                   type="email"
                 />
-                <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
-              </div>
-              <div className="tooltip-text absolute bottom-full left-0 mb-2 px-3 py-2 bg-inverse-surface text-inverse-on-surface text-label-md rounded shadow-lg z-10">
-                Email login is currently restricted to early access members.
+                <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">mail</span>
               </div>
             </div>
-            <div className="relative tooltip-container">
+            
+            <div>
               <label className="block text-label-md text-on-surface-variant mb-2">Password</label>
               <div className="relative">
                 <input
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 text-on-surface-variant cursor-not-allowed opacity-60"
-                  disabled
-                  placeholder="Coming soon"
+                  value={formData.password}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                  placeholder="••••••••"
                   type="password"
                 />
-                <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">visibility_off</span>
-              </div>
-              <div className="tooltip-text absolute bottom-full left-0 mb-2 px-3 py-2 bg-inverse-surface text-inverse-on-surface text-label-md rounded shadow-lg z-10">
-                Password reset and management coming in v2.0
+                <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
               </div>
             </div>
-          </div>
 
-          {/* Footer */}
-          <div className="flex flex-col items-center gap-4 pt-4">
-            <a className="text-secondary text-label-md font-medium hover:underline transition-all" href="#">Talk to your TPO</a>
-            <p className="text-body-sm text-outline text-center">
-              Need an account? Contact your department placement officer to request access.
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full bg-primary hover:bg-primary-container hover:text-on-primary-container text-on-primary font-semibold py-3 rounded-lg transition-colors flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Processing...' : (isRegistering ? 'Sign Up' : 'Sign In')}
+            </button>
+          </form>
+
+          {/* Footer Toggle */}
+          <div className="flex flex-col items-center gap-4 pt-2">
+            <button 
+              onClick={() => {
+                setIsRegistering(!isRegistering);
+                setFormData({ name: '', email: '', password: '' });
+              }}
+              className="text-secondary text-label-md font-medium hover:underline transition-all"
+            >
+              {isRegistering ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
+            </button>
+            <p className="text-body-sm text-outline text-center mt-2">
+              For administrative access, please contact your department placement officer.
             </p>
           </div>
         </div>
@@ -110,7 +173,7 @@ export default function Login() {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h3 className="text-title-lg font-semibold text-white">Live Placement Analytics</h3>
-                <p className="text-body-sm text-white/60">Batch of 2024 â€¢ Institutional View</p>
+                <p className="text-body-sm text-white/60">Batch of 2024 • Institutional View</p>
               </div>
               <div className="bg-primary/20 p-3 rounded-xl border border-primary/30">
                 <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
@@ -164,7 +227,7 @@ export default function Login() {
         {/* Footer Quote */}
         <div className="absolute bottom-12 text-center px-12">
           <p className="text-title-md font-semibold text-white/90 italic mb-2">"The smarter way to manage academic career trajectories."</p>
-          <span className="text-label-md text-white/50">â€” Trusted by 500+ Institutions</span>
+          <span className="text-label-md text-white/50">— Trusted by 500+ Institutions</span>
         </div>
       </section>
     </main>
