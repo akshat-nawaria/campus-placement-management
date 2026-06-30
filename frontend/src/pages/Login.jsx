@@ -1,4 +1,4 @@
-import { useState } from 'react';
+ï»¿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
@@ -127,7 +127,7 @@ export default function Login() {
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-                  placeholder="••••••••"
+                  placeholder="********"
                   type="password"
                 />
                 <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
@@ -173,7 +173,7 @@ export default function Login() {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h3 className="text-title-lg font-semibold text-white">Live Placement Analytics</h3>
-                <p className="text-body-sm text-white/60">Batch of 2024 • Institutional View</p>
+                <p className="text-body-sm text-white/60">Batch of 2024 â€¢ Institutional View</p>
               </div>
               <div className="bg-primary/20 p-3 rounded-xl border border-primary/30">
                 <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
@@ -227,9 +227,10 @@ export default function Login() {
         {/* Footer Quote */}
         <div className="absolute bottom-12 text-center px-12">
           <p className="text-title-md font-semibold text-white/90 italic mb-2">"The smarter way to manage academic career trajectories."</p>
-          <span className="text-label-md text-white/50">— Trusted by 500+ Institutions</span>
+          <span className="text-label-md text-white/50">â€” Trusted by 500+ Institutions</span>
         </div>
       </section>
     </main>
   );
 }
+
