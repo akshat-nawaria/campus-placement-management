@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
@@ -52,14 +52,12 @@ export default function Login() {
   return (
     <main className="flex min-h-screen bg-surface text-on-surface font-sans">
       {/* Left: Login Form Section */}
-      <section className="w-full lg:w-1/2 bg-surface-container-lowest flex flex-col items-center justify-center px-8 md:px-16 lg:px-24 py-12 relative overflow-y-auto">
-        {/* Logo */}
-        <div className="absolute top-12 left-8 md:left-12 lg:left-24">
-          <span className="text-display-lg font-bold text-primary">PlaceIT</span>
-        </div>
-
-        <div className="w-full max-w-md flex flex-col gap-8 mt-16 md:mt-0">
-          {/* Header */}
+      <section className="w-full lg:w-1/2 bg-surface-container-lowest flex flex-col items-center justify-center px-8 md:px-16 lg:px-24 py-12 overflow-y-auto">
+        <div className="w-full max-w-md flex flex-col gap-8">
+          {/* Logo */}
+          <div className="flex justify-center md:justify-start">
+            <span className="text-display-lg font-bold text-primary">PlaceIT</span>
+          </div>
           <div className="flex flex-col gap-2">
             <h2 className="text-headline-lg font-semibold text-on-surface">
               {isRegistering ? 'Create an account' : 'Welcome back'}
