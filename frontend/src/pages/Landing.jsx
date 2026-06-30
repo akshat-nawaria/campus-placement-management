@@ -21,88 +21,38 @@ export default function Landing() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative pt-20 pb-32 overflow-hidden px-6 lg:px-margin-desktop max-w-container-max mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-label-md font-medium">
-                <span className="material-symbols-outlined text-[16px] mr-2">school</span>
-                Campus Placement, Reimagined
-              </div>
-              <h1 className="text-[48px] leading-[1.1] font-extrabold tracking-tight text-on-surface">
-                Automate your entire <span className="gradient-text">placement process.</span>
-              </h1>
-              <p className="text-body-lg text-on-surface-variant max-w-lg">
-                The all-in-one platform for Training &amp; Placement Offices (TPOs), recruiters, and students to manage listings, eligibility, and offers seamlessly.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link to="/login" className="px-8 py-4 bg-primary text-white text-title-md font-semibold rounded-xl shadow-lg hover:shadow-xl hover:bg-primary-container transition-all active:scale-95 flex items-center gap-2">
-                  Get started <span className="material-symbols-outlined">arrow_forward</span>
-                </Link>
-                <a href="#features" className="px-8 py-4 bg-white border border-outline-variant text-on-surface text-title-md font-semibold rounded-xl hover:bg-surface-container-low transition-all">
-                  See how it works
-                </a>
-              </div>
-              <div className="pt-8 border-t border-outline-variant flex flex-wrap gap-8">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
-                  <span className="text-label-md font-medium text-on-surface">5 User Roles</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
-                  <span className="text-label-md font-medium text-on-surface">Eligibility Engine</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                  <span className="text-label-md font-medium text-on-surface">Single-Offer Policy</span>
-                </div>
-              </div>
+        <section className="relative pt-20 pb-32 overflow-hidden px-6 lg:px-margin-desktop max-w-container-max mx-auto text-center flex flex-col items-center">
+          <div className="max-w-3xl space-y-8 flex flex-col items-center">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-label-md font-medium">
+              <span className="material-symbols-outlined text-[16px] mr-2">school</span>
+              Campus Placement, Reimagined
             </div>
-
-            {/* Dashboard Mockup */}
-            <div className="relative hidden lg:block">
-              <div className="absolute -inset-4 bg-primary/10 rounded-3xl blur-3xl -z-10" />
-              <div className="bg-inverse-surface rounded-[24px] shadow-2xl p-6 border border-white/10 overflow-hidden transform hover:rotate-1 transition-transform duration-500">
-                <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-                  <div className="space-y-1">
-                    <h3 className="text-white text-title-lg font-semibold">Placement Analytics</h3>
-                    <p className="text-white/40 text-label-md">Q3 Batch 2024 Performance</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="w-3 h-3 rounded-full bg-error/40" />
-                    <div className="w-3 h-3 rounded-full bg-secondary-container/40" />
-                    <div className="w-3 h-3 rounded-full bg-tertiary-fixed/40" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                    <span className="text-white text-display-lg font-bold">58%</span>
-                    <p className="text-white/60 text-label-md uppercase tracking-wider">Placement Rate</p>
-                  </div>
-                  <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                    <span className="text-secondary-container text-display-lg font-bold">14.2</span>
-                    <p className="text-white/60 text-label-md uppercase tracking-wider">Avg LPA (₹)</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="h-8 w-full bg-white/5 rounded-md relative overflow-hidden">
-                    <div className="absolute inset-y-0 left-0 bg-primary-container w-[70%]" />
-                  </div>
-                  <div className="h-8 w-full bg-white/5 rounded-md relative overflow-hidden">
-                    <div className="absolute inset-y-0 left-0 bg-tertiary-container w-[45%]" />
-                  </div>
-                  <div className="h-8 w-full bg-white/5 rounded-md relative overflow-hidden">
-                    <div className="absolute inset-y-0 left-0 bg-secondary-container w-[85%]" />
-                  </div>
-                </div>
+            <h1 className="text-[48px] leading-[1.1] font-extrabold tracking-tight text-on-surface">
+              Automate your entire <span className="gradient-text">placement process.</span>
+            </h1>
+            <p className="text-body-lg text-on-surface-variant max-w-lg mx-auto">
+              The all-in-one platform for Training &amp; Placement Offices (TPOs), recruiters, and students to manage listings, eligibility, and offers seamlessly.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link to="/login" className="px-8 py-4 bg-primary text-white text-title-md font-semibold rounded-xl shadow-lg hover:shadow-xl hover:bg-primary-container transition-all active:scale-95 flex items-center gap-2">
+                Get started <span className="material-symbols-outlined">arrow_forward</span>
+              </Link>
+              <a href="#features" className="px-8 py-4 bg-white border border-outline-variant text-on-surface text-title-md font-semibold rounded-xl hover:bg-surface-container-low transition-all">
+                See how it works
+              </a>
+            </div>
+            <div className="pt-8 border-t border-outline-variant flex flex-wrap gap-8 justify-center w-full">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
+                <span className="text-label-md font-medium text-on-surface">5 User Roles</span>
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-surface p-4 rounded-2xl shadow-xl border border-outline-variant flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center">
-                  <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
-                </div>
-                <div>
-                  <p className="text-label-md text-on-surface-variant">Batch Strength</p>
-                  <p className="text-title-md font-semibold text-on-surface">1,240 Students</p>
-                </div>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
+                <span className="text-label-md font-medium text-on-surface">Eligibility Engine</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                <span className="text-label-md font-medium text-on-surface">Single-Offer Policy</span>
               </div>
             </div>
           </div>
