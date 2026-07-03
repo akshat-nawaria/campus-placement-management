@@ -1,4 +1,11 @@
 const studentModel = require("../models/student.model")
+const { createClient } = require('@supabase/supabase-js')
+
+// Polyfill WebSocket for Node.js 20 (required by Supabase Realtime)
+global.WebSocket = require('ws');
+
+// Initialize Supabase client
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
 
 //create or update student profile
 const createOrUpdateProfile = async (req,res)=>{
@@ -8,7 +15,31 @@ const createOrUpdateProfile = async (req,res)=>{
         const userId = req.user.id;
         const {rollNo, branch, passingYear, cgpa, backlogCount} = req.body;
 
-        let resumeUrl = req.file ? req.file.path : undefined;
+        let resumeUrl = undefined;
+        if (req.file) {
+            const fileExt = req.file.originalname.split('.').pop();
+            const fileName = `${userId}-${Date.now()}.${fileExt}`;
+
+            const { data, error } = await supabase
+                .storage
+                .from('resumes')
+                .upload(fileName, req.file.buffer, {
+                    contentType: req.file.mimetype,
+                    upsert: true
+                });
+
+            if (error) {
+                console.error("Supabase upload error:", error);
+                return res.status(500).json({ message: "Failed to upload resume to cloud storage", error: error.message });
+            }
+
+            const { data: publicUrlData } = supabase
+                .storage
+                .from('resumes')
+                .getPublicUrl(fileName);
+
+            resumeUrl = publicUrlData.publicUrl;
+        }
 
         let student = await studentModel.findOne({ userId });
 

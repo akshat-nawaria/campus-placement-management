@@ -6,7 +6,7 @@ export default function Landing() {
       {/* Sticky Navigation */}
       <header className="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant shadow-sm h-16 flex items-center px-6 lg:px-margin-desktop justify-between">
         <div className="flex items-center gap-8">
-          <Link to="/" className="text-display-lg font-bold text-primary">PlaceIT</Link>
+          <Link to="/" className="text-display-lg font-bold text-primary">CampusHire</Link>
           <nav className="hidden md:flex gap-6 items-center">
             <a className="text-on-surface-variant text-body-md hover:text-primary transition-colors" href="#features">Features</a>
             <a className="text-on-surface-variant text-body-md hover:text-primary transition-colors" href="#how-it-works">How it works</a>
@@ -109,7 +109,7 @@ export default function Landing() {
             <div className="flex flex-col lg:flex-row gap-16">
               <div className="lg:w-1/3">
                 <h2 className="text-headline-lg font-semibold mb-6">Designed for every stakeholder</h2>
-                <p className="text-on-surface-variant text-body-lg mb-8">PlaceIT provides dedicated interfaces tailored for specific roles in the ecosystem.</p>
+                <p className="text-on-surface-variant text-body-lg mb-8">CampusHire provides dedicated interfaces tailored for specific roles in the ecosystem.</p>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 p-4 rounded-xl bg-white border border-outline-variant">
                     <span className="material-symbols-outlined text-primary">check_circle</span>
@@ -161,7 +161,7 @@ export default function Landing() {
         <section className="bg-inverse-surface py-20 px-6 lg:px-margin-desktop" id="about">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <h2 className="text-white text-display-lg font-bold">Ready to streamline your campus placements?</h2>
-            <p className="text-white/60 text-body-lg">Join 500+ top institutions modernizing their career services with PlaceIT Pro.</p>
+            <p className="text-white/60 text-body-lg">Join 500+ top institutions modernizing their career services with CampusHire Pro.</p>
             <div className="pt-4">
               <Link to="/login" className="inline-block px-10 py-5 bg-primary-container text-white text-title-lg font-semibold rounded-full hover:bg-primary transition-all shadow-xl active:scale-95">
                 Schedule a Demo
@@ -176,7 +176,7 @@ export default function Landing() {
         <div className="max-w-container-max mx-auto px-6 lg:px-margin-desktop">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             <div className="space-y-6">
-              <span className="text-display-lg font-bold text-primary">PlaceIT</span>
+              <span className="text-display-lg font-bold text-primary">CampusHire</span>
               <p className="text-on-surface-variant text-body-md max-w-xs">Defining the future of campus recruitment through intelligent automation and data-driven insights.</p>
             </div>
             <div>
@@ -208,7 +208,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="mt-20 pt-8 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-label-md text-on-surface-variant">© 2024 PlaceIT Technologies Inc. All rights reserved.</p>
+            <p className="text-label-md text-on-surface-variant">© {new Date().getFullYear()} CampusHire Technologies Inc. All rights reserved.</p>
             <div className="flex gap-8 text-label-md text-on-surface-variant">
               <a className="hover:text-primary" href="#">Terms of Service</a>
               <a className="hover:text-primary" href="#">Cookie Policy</a>

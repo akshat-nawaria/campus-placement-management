@@ -6,6 +6,8 @@ const bcrypt = require("bcryptjs");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+const ALLOWED_DOMAIN = process.env.COLLEGE_DOMAIN || "@yourcollege.edu"; // Update this to your actual college domain
+
 const googleLogin = async (req, res) => {
     try {
         const { tokenId } = req.body;
@@ -22,6 +24,12 @@ const googleLogin = async (req, res) => {
 
         // Extracted email, name, and sub (Google ID) without the picture
         const { email, name, sub } = ticket.getPayload();
+
+        if (!email.endsWith(ALLOWED_DOMAIN)) {
+            return res.status(403).json({
+                message: `Access restricted. Please use your ${ALLOWED_DOMAIN} email to login.`
+            });
+        }
 
         let user = await userModel.findOne({ email });
 
@@ -62,6 +70,10 @@ const register = async (req, res) => {
         const { name, email, password } = req.body;
         if (!name || !email || !password) {
             return res.status(400).json({ message: "All fields are required" });
+        }
+
+        if (!email.endsWith(ALLOWED_DOMAIN)) {
+            return res.status(403).json({ message: `Registration is restricted to ${ALLOWED_DOMAIN} emails only.` });
         }
 
         const existingUser = await userModel.findOne({ email });

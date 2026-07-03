@@ -34,7 +34,7 @@ export default function Sidebar({ role, onClose }) {
       {/* Brand */}
       <div className="px-6 py-6 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">PlaceIT Pro</h1>
+          <h1 className="text-xl font-bold text-white">CampusHire Pro</h1>
           <p className="text-xs text-[#94A3B8] mt-0.5">
             {role === 'tpo' ? 'Placement Office' : 'Student Portal'}
           </p>

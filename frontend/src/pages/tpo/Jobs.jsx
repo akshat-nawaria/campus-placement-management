@@ -112,10 +112,10 @@ export default function Jobs() {
             <h4 className="text-title-md font-semibold mb-4">Eligibility Criteria</h4>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div><label className="block text-label-md text-on-surface-variant mb-1">Min CGPA</label>
-                <input type="number" step="0.1" min="0" max="10" value={form.eligibilityCriteria.minCgpa} onChange={(e) => setForm({ ...form, eligibilityCriteria: { ...form.eligibilityCriteria, minCgpa: parseFloat(e.target.value) || 0 } })}
+                <input type="number" step="0.1" min="0" max="10" value={form.eligibilityCriteria.minCgpa} onChange={(e) => setForm({ ...form, eligibilityCriteria: { ...form.eligibilityCriteria, minCgpa: e.target.value } })}
                   className="w-full border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-body-md focus:outline-none focus:border-primary" /></div>
               <div><label className="block text-label-md text-on-surface-variant mb-1">Target Batch Year</label>
-                <input type="number" value={form.eligibilityCriteria.targetBatchYear} onChange={(e) => setForm({ ...form, eligibilityCriteria: { ...form.eligibilityCriteria, targetBatchYear: parseInt(e.target.value) || 2026 } })}
+                <input type="number" value={form.eligibilityCriteria.targetBatchYear} onChange={(e) => setForm({ ...form, eligibilityCriteria: { ...form.eligibilityCriteria, targetBatchYear: e.target.value } })}
                   className="w-full border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-body-md focus:outline-none focus:border-primary" /></div>
             </div>
             <div className="mb-4">

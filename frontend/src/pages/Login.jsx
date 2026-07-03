@@ -56,14 +56,14 @@ export default function Login() {
         <div className="w-full max-w-md flex flex-col gap-8">
           {/* Logo */}
           <div className="flex justify-center">
-            <span className="text-display-lg font-bold text-primary">PlaceIT</span>
+            <span className="text-display-lg font-bold text-primary">CampusHire</span>
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="text-headline-lg font-semibold text-on-surface text-center">
               {isRegistering ? 'Create an account' : 'Welcome back'}
             </h2>
             <p className="text-body-md text-on-surface-variant text-center">
-              {isRegistering ? 'Sign up to build your placement profile' : 'Sign in to your PlaceIT account'}
+              {isRegistering ? 'Sign up to build your placement profile' : 'Sign in to your CampusHire account'}
             </p>
           </div>
 

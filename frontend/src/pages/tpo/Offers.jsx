@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getAllOffers, issueOffer } from '../../api/offers';
+import { getAllOffers, issueOffer, bulkIssueOffers } from '../../api/offers';
 import { getCompanies } from '../../api/companies';
 import { getJobs } from '../../api/jobs';
 import { getAllStudents } from '../../api/students';
@@ -18,11 +18,35 @@ export default function Offers() {
   const qc = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ studentId: '', companyId: '', jobId: '', package: '' });
+  
+  // Bulk Issue State
+  const [rollNumbers, setRollNumbers] = useState('');
+  const [bulkCompanyId, setBulkCompanyId] = useState('');
+  const [bulkJobId, setBulkJobId] = useState('');
+  const [bulkPackage, setBulkPackage] = useState('');
 
   const issueMutation = useMutation({
     mutationFn: issueOffer,
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['offers'] }); toast.success('Offer issued!'); setShowForm(false); setForm({ studentId: '', companyId: '', jobId: '', package: '' }); },
     onError: (err) => toast.error(err.response?.data?.message || 'Failed to issue offer'),
+  });
+
+  const bulkIssueMutation = useMutation({
+    mutationFn: bulkIssueOffers,
+    onSuccess: (res) => { 
+      qc.invalidateQueries({ queryKey: ['offers'] }); 
+      const { successful = [], failed = [] } = res.data;
+      if (failed.length === 0) {
+        toast.success(`Successfully issued ${successful.length} offers!`);
+      } else {
+        toast.success(`Issued ${successful.length} offers. ${failed.length} failed (duplicate or error).`);
+      }
+      setRollNumbers(''); 
+      setBulkCompanyId(''); 
+      setBulkJobId(''); 
+      setBulkPackage(''); 
+    },
+    onError: (err) => toast.error(err.response?.data?.message || 'Failed to issue bulk offers'),
   });
 
   if (isLoading) return <LoadingSkeleton rows={6} />;
@@ -31,6 +55,43 @@ export default function Offers() {
   const companies = companiesData?.companies || [];
   const jobs = jobsData?.jobs || [];
 
+  const handleBulkIssue = () => {
+    const rolls = rollNumbers.split(',').map((r) => r.trim()).filter(Boolean);
+    if (rolls.length === 0) {
+      toast.error('Please enter at least one roll number');
+      return;
+    }
+    if (!bulkCompanyId || !bulkJobId || !bulkPackage) {
+      toast.error('Please select company, job, and package');
+      return;
+    }
+
+    const payloadOffers = [];
+    const missingRolls = [];
+
+    rolls.forEach(roll => {
+      const student = students.find(s => s.rollNo === roll);
+      if (student) {
+        payloadOffers.push({
+          studentId: student._id,
+          companyId: bulkCompanyId,
+          jobId: bulkJobId,
+          package: bulkPackage
+        });
+      } else {
+        missingRolls.push(roll);
+      }
+    });
+
+    if (missingRolls.length > 0) {
+      toast.error(`Students not found for rolls: ${missingRolls.join(', ')}`);
+    }
+
+    if (payloadOffers.length > 0) {
+      bulkIssueMutation.mutate({ offers: payloadOffers });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -38,6 +99,33 @@ export default function Offers() {
         <button onClick={() => setShowForm(true)} className="flex items-center gap-2 px-5 py-2.5 bg-primary-container text-white text-sm font-semibold rounded-lg hover:opacity-90">
           <span className="material-symbols-outlined text-[18px]">add</span> Issue Offer
         </button>
+      </div>
+
+      {/* Bulk Issue Banner */}
+      <div className="bg-[#FEF9C3] border border-[#FCD34D] rounded-xl p-5">
+        <h4 className="text-title-md font-semibold text-amber-900 mb-3">Bulk Issue Offers</h4>
+        <div className="flex flex-col gap-3">
+          <textarea value={rollNumbers} onChange={(e) => setRollNumbers(e.target.value)} placeholder="Enter roll numbers, comma-separated (e.g., 21BCE001, 21BCE002)"
+            className="w-full border border-amber-300 rounded-lg px-4 py-2 text-body-sm bg-white focus:outline-none focus:border-amber-500" rows={2} />
+          <div className="flex flex-col sm:flex-row gap-2">
+            <select required value={bulkCompanyId} onChange={(e) => setBulkCompanyId(e.target.value)}
+              className="flex-1 border border-amber-300 rounded-lg px-3 py-2 text-body-sm bg-white focus:outline-none">
+              <option value="">Select company</option>
+              {companies.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
+            </select>
+            <select required value={bulkJobId} onChange={(e) => setBulkJobId(e.target.value)}
+              className="flex-1 border border-amber-300 rounded-lg px-3 py-2 text-body-sm bg-white focus:outline-none">
+              <option value="">Select job</option>
+              {jobs.map((j) => <option key={j._id} value={j._id}>{j.title}</option>)}
+            </select>
+            <input required placeholder="Package (e.g., 15 LPA)" value={bulkPackage} onChange={(e) => setBulkPackage(e.target.value)}
+              className="flex-1 border border-amber-300 rounded-lg px-3 py-2 text-body-sm bg-white focus:outline-none focus:border-amber-500" />
+            <button onClick={handleBulkIssue} disabled={bulkIssueMutation.isPending}
+              className="px-5 py-2 bg-amber-600 text-white text-sm font-semibold rounded-lg hover:bg-amber-700 disabled:opacity-50 whitespace-nowrap">
+              Issue All
+            </button>
+          </div>
+        </div>
       </div>
 
       {offers.length === 0 ? (

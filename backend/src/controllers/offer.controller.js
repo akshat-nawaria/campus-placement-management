@@ -32,6 +32,48 @@ const issueOffer = async (req,res)=>{
     }
 }
 
+// TPO issues bulk offers
+const bulkIssueOffers = async (req, res) => {
+    try {
+        const { offers } = req.body;
+
+        if (!Array.isArray(offers) || offers.length === 0) {
+            return res.status(400).json({ message: "Offers array is required" });
+        }
+
+        const successfulOffers = [];
+        const failedOffers = [];
+
+        for (const offerData of offers) {
+            try {
+                const newOffer = await Offer.create({
+                    studentId: offerData.studentId,
+                    companyId: offerData.companyId,
+                    jobId: offerData.jobId,
+                    package: offerData.package
+                });
+                successfulOffers.push(newOffer);
+            } catch (error) {
+                failedOffers.push({
+                    studentId: offerData.studentId,
+                    error: error.code === 11000 ? "Already has an offer for this job" : error.message
+                });
+            }
+        }
+
+        return res.status(201).json({
+            message: "Bulk offer issuance completed",
+            successful: successfulOffers,
+            failed: failedOffers
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to process bulk offers",
+            error: error.message
+        });
+    }
+}
+
 
 const acceptOffer = async (req,res)=>{
     try{
@@ -106,6 +148,7 @@ const getAllOffers = async (req, res) => {
 
 module.exports = {
     issueOffer,
+    bulkIssueOffers,
     acceptOffer,
     getMyOffer,
     getAllOffers
