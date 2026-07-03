@@ -27,7 +27,7 @@ const googleLogin = async (req, res) => {
 
         if (!email.endsWith(ALLOWED_DOMAIN)) {
             return res.status(403).json({
-                message: `Access restricted. Please use your ${ALLOWED_DOMAIN} email to login.`
+                message: `Invalid Email. You must use your exact college ID ending with ${ALLOWED_DOMAIN}`
             });
         }
 
@@ -73,7 +73,7 @@ const register = async (req, res) => {
         }
 
         if (!email.endsWith(ALLOWED_DOMAIN)) {
-            return res.status(403).json({ message: `Registration is restricted to ${ALLOWED_DOMAIN} emails only.` });
+            return res.status(403).json({ message: `Invalid Email. You must use your exact college ID ending with ${ALLOWED_DOMAIN} to sign up.` });
         }
 
         const existingUser = await userModel.findOne({ email });
